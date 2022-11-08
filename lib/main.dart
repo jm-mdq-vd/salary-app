@@ -1,9 +1,17 @@
+import 'dart:developer' as dev;
+
 import 'package:flutter/material.dart';
+import 'package:networking/networking.dart';
 
 import 'widgets/input_box/input_box.dart';
 import 'widgets/cells/result_cell.dart';
 
-void main() {
+Future<void> main() async {
+  final api = DollarApiClient();
+  final officialValue = await api.getInfoFrom(Endpoint.official);
+  dev.log(officialValue.date);
+  dev.log(officialValue.sell);
+  dev.log(officialValue.buy);
   runApp(const SalaryApp());
 }
 

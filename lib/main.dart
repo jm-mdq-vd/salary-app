@@ -78,12 +78,10 @@ class _MainViewState extends State<MainView> {
               label: 'Salario Bruto: ',
               value: '$fullSalary',
             ),
-            const SizedBox(height: 8,),
             ResultCell(
               label: 'Salario Neto: ',
               value: remainingSalary,
             ),
-            const SizedBox(height: 8,),
             ResultCell(
               label: 'Salario Neto en Dolares: ',
               value: parallelDollarSalary,
@@ -105,6 +103,12 @@ class ResultCell extends StatelessWidget {
   final String label;
   final String value;
 
+  TextStyle get style => const TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+    fontSize: 20.0,
+  );
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -121,18 +125,12 @@ class ResultCell extends StatelessWidget {
             Text(
               label,
               textAlign: TextAlign.start,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-              ),
+              style: style,
             ),
             Text(
               value,
               textAlign: TextAlign.start,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20.0,
-              ),
+              style: style,
             ),
           ],
         ),

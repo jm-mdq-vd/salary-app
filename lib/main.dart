@@ -36,8 +36,12 @@ class MainView extends StatefulWidget {
 
 class _MainViewState extends State<MainView> {
   final double percentage = 0.17;
-  double get remainingSalary => fullSalary - (fullSalary * percentage);
   double fullSalary = 0.0;
+
+  double get remainingSalaryValue => fullSalary - (fullSalary * percentage);
+  double get parallelDollarSalaryValue => remainingSalaryValue / 285.00;
+  String get remainingSalary => remainingSalaryValue.toStringAsFixed(2);
+  String get parallelDollarSalary => parallelDollarSalaryValue.toStringAsFixed(2);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +81,12 @@ class _MainViewState extends State<MainView> {
             const SizedBox(height: 8,),
             ResultCell(
               label: 'Salario Neto: ',
-              value: '$remainingSalary',
+              value: remainingSalary,
+            ),
+            const SizedBox(height: 8,),
+            ResultCell(
+              label: 'Salario Neto en Dolares: ',
+              value: parallelDollarSalary,
             ),
           ],
         )

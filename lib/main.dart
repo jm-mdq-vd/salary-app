@@ -1,6 +1,7 @@
-import 'dart:developer' as devtools;
-
 import 'package:flutter/material.dart';
+
+import 'widgets/input_box/input_box.dart';
+import 'widgets/cells/result_cell.dart';
 
 void main() {
   runApp(const SalaryApp());
@@ -89,105 +90,6 @@ class _MainViewState extends State<MainView> {
           ],
         )
       ],
-    );
-  }
-}
-
-class ResultCell extends StatelessWidget {
-  const ResultCell({
-    Key? key,
-    required this.label,
-    required this.value,
-  }) : super(key: key);
-
-  final String label;
-  final String value;
-
-  TextStyle get style => const TextStyle(
-    color: Colors.white,
-    fontWeight: FontWeight.bold,
-    fontSize: 20.0,
-  );
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.grey,
-      height: 50.0,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(
-          vertical: 4.0,
-          horizontal: 16.0,
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              label,
-              textAlign: TextAlign.start,
-              style: style,
-            ),
-            Text(
-              value,
-              textAlign: TextAlign.start,
-              style: style,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-
-
-class InputBox extends StatefulWidget {
-  const InputBox({
-    Key? key,
-    required this.hintText,
-    required this.handler,
-  }) : super(key: key);
-
-  final String hintText;
-  final Function(double) handler;
-
-  @override
-  State<InputBox> createState() => _InputBoxState();
-}
-
-class _InputBoxState extends State<InputBox> {
-  final _controller = TextEditingController();
-
-  String _textValue = '0.0';
-  double get _value => double.parse(_textValue);
-
-  @override
-  void initState() {
-    super.initState();
-
-    _controller.addListener(() {
-      _textValue = _controller.text.isNotEmpty ? _controller.text : '0.0';
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      maxLines: 1,
-      controller: _controller,
-      onEditingComplete: () {
-        setState(() {
-          widget.handler(_value);
-        });
-      },
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: Colors.white,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        hintText: widget.hintText,
-      ),
     );
   }
 }

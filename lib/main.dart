@@ -17,6 +17,7 @@ class SalaryApp extends StatelessWidget {
         primaryColor: Colors.teal,
       ),
       home: Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: const Text('SALARY'),
         ),
@@ -26,31 +27,111 @@ class SalaryApp extends StatelessWidget {
   }
 }
 
-class MainView extends StatelessWidget {
+class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
 
+  @override
+  State<MainView> createState() => _MainViewState();
+}
+
+class _MainViewState extends State<MainView> {
   final double percentage = 0.17;
+  double get remainingSalary => fullSalary - (fullSalary * percentage);
+  double fullSalary = 0.0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Container(
+          color: const Color.fromRGBO(226, 247, 249, 1.0),
+          height: MediaQuery.of(context).size.height * 0.60,
+          padding: const EdgeInsets.symmetric(
+            vertical: 24.0,
+            horizontal: 16.0,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              InputBox(
+                hintText: 'Ingresar salario en dolares',
+                handler: (salary) {
+                  final fullSalary = salary * 161.50;
+                  setState(() {
+                    this.fullSalary = fullSalary;
+                  });
+                },
+              ),
+            ],
+          ),
+        ),
+        const Spacer(),
+        Column(
+          children: [
+            ResultCell(
+              label: 'Salario Bruto: ',
+              value: '$fullSalary',
+            ),
+            const SizedBox(height: 8,),
+            ResultCell(
+              label: 'Salario Neto: ',
+              value: '$remainingSalary',
+            ),
+          ],
+        )
+      ],
+    );
+  }
+}
+
+class ResultCell extends StatelessWidget {
+  const ResultCell({
+    Key? key,
+    required this.label,
+    required this.value,
+  }) : super(key: key);
+
+  final String label;
+  final String value;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 24.0,
-        horizontal: 16.0,
-      ),
-      child: Column(
-        children: [
-          InputBox(
-            hintText: 'Ingresar salario',
-            handler: (salary) {
-              devtools.log('Salario Neto: ${salary - (salary * percentage)}');
-            },
-          ),
-        ],
+      color: Colors.grey,
+      height: 50.0,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+          vertical: 4.0,
+          horizontal: 16.0,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              label,
+              textAlign: TextAlign.start,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+              ),
+            ),
+            Text(
+              value,
+              textAlign: TextAlign.start,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
 
 
 class InputBox extends StatefulWidget {
@@ -89,12 +170,15 @@ class _InputBoxState extends State<InputBox> {
       controller: _controller,
       onEditingComplete: () {
         setState(() {
-          devtools.log('Base Salary: $_value');
           widget.handler(_value);
         });
       },
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
+        filled: true,
+        fillColor: Colors.white,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
         hintText: widget.hintText,
       ),
     );

@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 
-class ResultCell extends StatelessWidget {
-  const ResultCell({
+class Cell extends StatelessWidget {
+  const Cell({
     Key? key,
     required this.label,
     required this.value,
+    this.color = Colors.white,
+    this.backgroundColor = Colors.grey,
   }) : super(key: key);
 
   final String label;
   final String value;
+  final Color color;
+  final Color backgroundColor;
 
-  TextStyle get style => const TextStyle(
-    color: Colors.white,
+  TextStyle get style => TextStyle(
+    color: color,
     fontWeight: FontWeight.bold,
     fontSize: 20.0,
   );
@@ -19,7 +23,7 @@ class ResultCell extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.grey,
+      color: backgroundColor,
       height: 50.0,
       child: Padding(
         padding: const EdgeInsets.symmetric(
